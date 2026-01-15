@@ -60,7 +60,7 @@ score_plot1D <- function(x, P = NULL,
   var_a <- sum(w * (a_raw - a_bar)^2) / (1 - sum(w^2))  # unbiased weighted var
   a <- (a_raw - a_bar) / sqrt(var_a)
   #####################3##
-  a <- as.numeric(unlist(recox$a))
+  # a <- as.numeric(unlist(recox$a))
   x <- as.numeric(unlist(recox$x))
   weight <- as.numeric(unlist(recox$P))
   slt <- as.numeric(unlist(recox$slt))
@@ -98,11 +98,10 @@ score_plot1D <- function(x, P = NULL,
   out <- index[ind]
   #####
   # df$Type <- (df$a <= df$lower | df$a >= df$upper)
-  # df$Type <- as.factor(ifelse(df$a < lower | df$a > upper,
-  #                             "Outlier", "Non outlier"))
   df$Type <- factor(df$Type,
                     levels = c(T, F),
                     labels = c("Outlier", "Non-outlier"))
+
   g <- ggplot2::ggplot(data = df) +
     geom_line(mapping = aes(x, f),
               colour = "darkorange3", linewidth = 0.7) +
