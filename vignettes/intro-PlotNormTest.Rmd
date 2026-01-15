@@ -1,0 +1,185 @@
+---
+title: "Introduction to PlotNormTest"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{intro-PlotNormTest}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+options(rmarkdown.html_vignette.check_title = FALSE)
+oldpar <- par(no.readonly = TRUE)
+```
+
+# Introduction 
+
+This vignette shows how to use the `PlotNormTest` package to access the normality assumption of a multivariate dataset. 
+
+# Basic example: The Cork data set
+
+- Cork Boring dataset by Rao (1948). The weights of 𝑛 = 28 cork boring were measured in four
+directions: North, East, South, and West, respectively. 
+
+```{r}
+library(PlotNormTest)
+```
+
+```{r The Cork dataset}
+cork <- matrix(c(
+  72, 66, 76, 77,
+  60, 53, 66, 63,
+  56, 57, 64, 58,
+  41, 29, 36, 38,
+  32, 32, 35, 36,
+  30, 35, 34, 26,
+  39, 39, 31, 27,
+  42, 43, 31, 25,
+  37, 40, 31, 25,
+  33, 29, 27, 36,
+  32, 30, 34, 28,
+  63, 45, 74, 63,
+  54, 46, 60, 52,
+  47, 51, 52, 43,
+  91, 79, 100, 75,
+  56, 68, 47, 50,
+  79, 65, 70, 61,
+  81, 80, 68, 58,
+  78, 55, 67, 60,
+  46, 38, 37, 38,
+  39, 35, 34, 37,
+  32, 30, 30, 32,
+  60, 50, 67, 54,
+  35, 37, 48, 39,
+  39, 36, 39, 31,
+  50, 34, 37, 40,
+  43, 37, 39, 50,
+  48, 54, 57, 43
+), nrow = 28, ncol = 4, byrow = T)
+colnames(cork) <- c("North", "East", "South", "West")
+
+head(cork)
+```
+
+
+# Marginal Univariate Normality Assessment
+
+This section illustration how to use `PlotNormTest` to assess univariate normality assumption. We will perform the assessment for each variables (North, East, South, West) of the Cork dataset. 
+
+## Using Score function
+
+In score plot, evidence of non-normality is curves different from the $45^\circ$ line $y = x$. 
+
+```{r fig.width=6, fig.height=6, fig.align='center'}
+library(ggplot2)
+# Score function
+lapply(1:4,  FUN = function(mycol) {
+  re <- PlotNormTest::cox(matrix(sort(cork[, mycol])), x.dist = 0.0001)
+  a <- re$a[, 1]
+  p <- ggplot(data.frame(x = re$x, a = a), aes(x = x, y = a)) + 
+    geom_point(color = "steelblue3", shape = 19, size = 1.5) + 
+    ggtitle(paste("Score plot: ", colnames(cork)[mycol])) +
+    coord_fixed() + xlab("y")+ 
+    ylab("Score function") + 
+    theme_bw() + 
+    theme(aspect.ratio = 1/1, panel.grid = element_blank(),
+          axis.line = element_line(colour = "black"), 
+          axis.text=element_text(size=12),
+          axis.title=element_text(size=14,face="bold"), 
+          legend.background = element_rect( 
+            size=0.5, linetype="solid"), 
+          legend.text = element_text(size=12))
+  p
+  
+}
+)
+```
+
+
+
+
+## Using T3 plot 
+
+In $T_3$ and $T_4$, evidence of non-normality is either curves crossing the $1 - \alpha = 95\%$ confidence region bands or curve with high slopes.
+
+
+```{r fig.width=6, fig.height=6, fig.align='center'}
+# T3 
+lapply(1:4,  FUN = function(mycol) {
+  x <- cork[, mycol]
+  par(cex.axis = 1.2, cex.lab = 1.2,
+               mar = c(4, 4.2, 2,1), cex.main = 1.2)
+  PlotNormTest::dhCGF_plot1D(x, method = "T3") 
+  namex <- colnames(cork)[mycol]
+  title(main = bquote(T[3]~"plot: "~.(namex)), adj = 0)
+}
+)
+
+```
+
+
+## Using T4 plot 
+```{r fig.width=6, fig.height=6, fig.align='center'}
+# T4
+ par(cex.axis = 1.2, cex.lab = 1.2,
+             mar = c(4, 4.2, 2,1), cex.main = 1.2)
+lapply(1:4,  FUN = function(mycol) {
+  x <- cork[, mycol]
+  PlotNormTest::dhCGF_plot1D(x, method = "T4") 
+  namex <- colnames(cork)[mycol]
+  title(main = bquote(T[4]~"plot: "~.(namex)), adj = 0)
+}
+)
+```
+
+# Multivariate Normality Assessment
+## From multivariate normality to univariate normality 
+
+Under the assumption that $n = 28$ samples Cork dataset follows a multivariate normal distribution in $p = 4$, standardization around sample mean and sample variance results in an $\tilde{n} = 28 \times 4 = 112$ sample approximately from $N(0,1)$. Hence normality evidence can be found via assessment of normality of this univariate sample. From this, any univariate normality testing method can be applied. 
+
+Results below show weak evidence of non-normality, as score plot does not form a straight line and $T_3$ and $T_4$ plots show curves in the right tail. However as the weak nornality assumption here is ensured by large sample size, with $n = 28$, results may not be very convincing. Hence for those small sample, $MT_3$ and $MT_4$ plots below should be used. 
+
+
+
+```{r fig.width=6, fig.height=6, fig.align='center'}
+df <- Multi.to.Uni(cork)
+# Cox
+score_plot1D(df$x.new, ori.index = df$ind, x.dist = .001)$plot +
+  theme(legend.position = "none")+ xlab("y") +
+  ggtitle("Score plot")+
+  ylab("Score function")
+
+#T3 and T4
+par(cex.axis = 1.2, cex.lab = 1.2, mar = c(4, 4.2, 2,1), cex.main = 1.2)
+PlotNormTest::dhCGF_plot1D(df$x.new, method = "T3")
+par(cex.axis = 1.2, cex.lab = 1.2, mar = c(4, 4.2, 2,1), cex.main = 1.2)
+dhCGF_plot1D(df$x.new, method = "T4")
+```
+
+## MT3 plot
+
+Accessing multivariate normality assumption of the Cork data set directly via plots of derivatives of cumlant generating functions, shown in $MT_3$ and $MT_4$ plot. 
+
+The two figures from $MT_3$ and $MT_4$ plots support multivariate normality assumption. 
+
+```{r fig.width=6, fig.height=6, fig.align='center'}
+par(cex.axis = 1.2, cex.lab = 1.2, mar = c(4, 4.2, 2,1), cex.main = 1.2)
+PlotNormTest::d3hCGF_plot(cork)
+```
+
+## MT4 plot
+```{r fig.width=6, fig.height=6, fig.align='center'}
+par(cex.axis = 1.2, cex.lab = 1.2, mar = c(4, 4.2, 2,1), cex.main = 1.2)
+PlotNormTest::d4hCGF_plot(cork)
+```
+
+```{r Change par back to default, include = FALSE}
+par(oldpar)
+```
+
+

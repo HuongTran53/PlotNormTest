@@ -21,16 +21,16 @@ derivatives, default is their average.}
 }
 \value{
 \itemize{
-\item{\code{p}}{ Dimension.}
-\item{\code{lT}}{ Number of distinct third/fourth order derivatives.}
-\item{\code{sTtTs}}{ Two dimensional array, each element contains covariance
+\item{\code{p} Dimension.}
+\item{\code{lT} Number of distinct third/fourth order derivatives.}
+\item{\code{sTtTs} Two dimensional array, each element contains covariance
 matrix of vector of derivatives, the function called
 \code{\link[=mt3_covTtTs]{mt3_covTtTs()}}, or
 \code{\link[=mt4_covTtTs]{mt4_covTtTs()}}}.
-\item{\code{l.sTtTs}}{ Covariance matrix of linear combination of distinct
+\item{\code{l.sTtTs} Covariance matrix of linear combination of distinct
 derivatives, the function called \code{\link[=mt3_covLtLs]{mt3_covLtLs()}},
 or \code{\link[=mt4_covLtLs]{mt4_covLtLs()}}.}
-\item{\code{m.supLT}}{ The Monte Carlo estimate of expected value supremum of
+\item{\code{m.supLT} The Monte Carlo estimate of expected value supremum of
 the Gaussian process, see \code{\link[=covLtLs]{covLtLs()}}.
 }
 }
@@ -44,11 +44,13 @@ Obtain necessary parameters to build a graphical test using
 the third/fourth derivatives of cumulant generating function.
 }
 \examples{
+\donttest{
 p <- 2
-mt3 <- mt3_get_param(p, bigt = seq(-1, 1, .4)/sqrt(p))
+mt3 <- mt3_get_param(p, bigt = seq(-1, 1, .5)/sqrt(p))
 names(mt3)
-mt4 <- mt4_get_param(p, bigt = seq(-1, 1, .4)/sqrt(p))
+mt4 <- mt4_get_param(p, bigt = seq(-1, 1, .5)/sqrt(p))
 names(mt4)
+}
 }
 \seealso{
 \code{\link[=covZtZs]{covZtZs()}},

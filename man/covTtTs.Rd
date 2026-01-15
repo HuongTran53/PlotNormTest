@@ -59,7 +59,8 @@ For each pairs of \eqn{(t^*, s^*)}, \code{covTsTt} results a covariance
 matrix of size \eqn{l_{T_3} \times l_{T_3}} or \eqn{l_{T_4} \times l_{T_4}}.
 }
 \examples{
-bigt <- seq(-1, 1, .4)
+\donttest{
+bigt <- seq(-1, 1, .5)
 p <- 2
 # Third derivatives
 mt3_pos.matrix <- mt3_pos(p)
@@ -71,4 +72,5 @@ mt4_pos.matrix <- mt4_pos(p)
 sTsTt4 <- mt4_covTtTs(bigt = bigt, p = p, pos.matrix = mt4_pos.matrix)
 dim(sTsTt4)
 sTsTt4[1:5, 1:5]
+}
 }

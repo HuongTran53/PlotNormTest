@@ -39,7 +39,8 @@
 #' \code{mt3_covTsTt} returns the resulting third derivatives.
 #' @export
 #' @examples
-#' bigt <- seq(-1, 1, .4)
+#' \donttest{
+#' bigt <- seq(-1, 1, .5)
 #' p <- 2
 #' # Third derivatives
 #' mt3_pos.matrix <- mt3_pos(p)
@@ -51,6 +52,7 @@
 #' sTsTt4 <- mt4_covTtTs(bigt = bigt, p = p, pos.matrix = mt4_pos.matrix)
 #' dim(sTsTt4)
 #' sTsTt4[1:5, 1:5]
+#' }
 mt3_covTtTs <- function(bigt, p = 1, pos.matrix= NULL){
   if (is.null(pos.matrix)){
     pos.matrix<- mt3_pos(p)

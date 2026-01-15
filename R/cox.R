@@ -35,13 +35,16 @@
 #'  main = "Estimator of score function")
 #' abline(0, 1)
 #'
-cox <- function(x, P = NULL, lambda = 0.5, x.dist = NULL) {
+cox <- function(x, P = NULL, lambda = NULL, x.dist = NULL) {
   nx <- length(x)
   if (is.unsorted(x) == T){
     stop("x should be sort")
   }
-  if (lambda < 0) {
-    stop("penalty parameters is non negative")
+
+  if (!is.null(lambda)) {
+    if (lambda < 0) {
+      stop("penalty parameters is non negative")
+      }
   }
 
   if (is.null(P)) {
@@ -71,12 +74,16 @@ cox <- function(x, P = NULL, lambda = 0.5, x.dist = NULL) {
     slt = NULL
   }
   nx <- length(x)
+  ## See: A penalty method for nonparamtric estimation of logarithm derivative of a density function, corollary 6
+  if (is.null(lambda)) {lambda <- nx^{-0.3}}
   onethd <- 1/3
   twothd <- 2/3
   ift <- 0
   nxm1 <- nx - 1; nxm2 <- nx - 2; nxm3 <- nx - 3
   nxp1 <- nx + 1
-  lambda <- lambda
+
+
+
   h <- x[-1] - x[-nx]
   # Matrix C:
   c <- Matrix::bandSparse(nx, nxm2, -1:0, list(twothd *h[-1],
@@ -89,6 +96,7 @@ cox <- function(x, P = NULL, lambda = 0.5, x.dist = NULL) {
   Q <- Matrix::bandSparse(nx, nxm2, -2: 0, list(1 / h[-1],
                                                 - 1/h[-nxm1] - 1/h[-1],
                                                 1 / h[-nxm1]))
+  Q <- as.matrix(Q)
   # Matrix P^-1Q is pq:
   pq <- Matrix::bandSparse(
     nx, nxm2, -2:0, list(1/(P[-c(1,2)] * h[-1]),

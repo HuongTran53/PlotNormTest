@@ -13,7 +13,7 @@
 #' \eqn{S_{-k}^{-1/2} (X_k - \bar{X}_{-k}) , k = 1,... n} are approximately
 #' independently distributed as \eqn{N_p(0, I)}. Thus all \eqn{n \times p}
 #' entries in the data matrix so constructed can be treated as
-#' univariate samples of size \eqn{n \time p} from \eqn{N(0, 1)}.
+#' univariate samples of size \eqn{n \times p} from \eqn{N(0, 1)}.
 # @note The transformation gives number of data points as a multiple of
 # dimension \eqn{p}, density of data points is high and
 # spline method may produce ill-posed matrices. Merging with \code{x.dist}

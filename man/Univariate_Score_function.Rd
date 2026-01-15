@@ -6,9 +6,9 @@
 \alias{score_plot1D}
 \title{Graphical plots to assess the univarite noramality assumption of data.}
 \usage{
-cox(x, P = NULL, lambda = 0.5, x.dist = NULL)
+cox(x, P = NULL, lambda = NULL, x.dist = NULL)
 
-score_plot1D(x, P = NULL, lambda = 0.5, x.dist = NULL, ori.index = NULL)
+score_plot1D(x, P = NULL, lambda = NULL, x.dist = NULL, ori.index = NULL)
 }
 \arguments{
 \item{x}{univariate data.}

@@ -13,16 +13,16 @@
 #' @param bigt Array containing value of \eqn{t^*}.
 #' @return
 #' \itemize{
-#' \item{\code{p}}{ Dimension.}
-#' \item{\code{lT}}{ Number of distinct third/fourth order derivatives.}
-#' \item{\code{sTtTs}}{ Two dimensional array, each element contains covariance
+#' \item{\code{p} Dimension.}
+#' \item{\code{lT} Number of distinct third/fourth order derivatives.}
+#' \item{\code{sTtTs} Two dimensional array, each element contains covariance
 #'  matrix of vector of derivatives, the function called
 #' \code{\link[=mt3_covTtTs]{mt3_covTtTs()}}, or
 #' \code{\link[=mt4_covTtTs]{mt4_covTtTs()}}}.
-#' \item{\code{l.sTtTs}}{ Covariance matrix of linear combination of distinct
+#' \item{\code{l.sTtTs} Covariance matrix of linear combination of distinct
 #' derivatives, the function called \code{\link[=mt3_covLtLs]{mt3_covLtLs()}},
 #' or \code{\link[=mt4_covLtLs]{mt4_covLtLs()}}.}
-#' \item{\code{m.supLT}}{ The Monte Carlo estimate of expected value supremum of
+#' \item{\code{m.supLT} The Monte Carlo estimate of expected value supremum of
 #' the Gaussian process, see \code{\link[=covLtLs]{covLtLs()}}.
 #' }
 #' }
@@ -34,15 +34,17 @@
 #' \code{\link[=covLtLs]{covLtLs()}}, \code{\link[=covTtTs]{covTtTs()}}
 #' @export
 #' @examples
+#' \donttest{
 #' p <- 2
-#' mt3 <- mt3_get_param(p, bigt = seq(-1, 1, .4)/sqrt(p))
+#' mt3 <- mt3_get_param(p, bigt = seq(-1, 1, .5)/sqrt(p))
 #' names(mt3)
-#' mt4 <- mt4_get_param(p, bigt = seq(-1, 1, .4)/sqrt(p))
+#' mt4 <- mt4_get_param(p, bigt = seq(-1, 1, .5)/sqrt(p))
 #' names(mt4)
+#' }
 mt3_get_param <- function(p,
                           bigt = seq(-1, 1, by = .05)/sqrt(p),
                           l = NULL){
-  print(paste("MT3 params for dimension: ", p))
+  message(paste("MT3 params for dimension:", p))
   lT <- p + choose(p, 2)*2 + choose(p, 3)
   numt <- length(bigt)
   pos.matrix <- mt3_pos(p)
@@ -70,7 +72,7 @@ mt3_get_param <- function(p,
 #' @export
 mt4_get_param <- function(p, bigt = seq(-1, 1, by = .05)/sqrt(p),
                           l = NULL){
-  print(paste("MT4 params for dimension: ", p))
+  message(paste("MT4 params for dimension:", p))
   lT4 <- p + 3 *choose(p, 2) + 3*choose(p, 3) + choose(p, 4)
   numt <- length(bigt)
   pos.matrix <- mt4_pos(p)

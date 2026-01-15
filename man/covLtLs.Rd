@@ -46,8 +46,9 @@ We consider vector \eqn{t} and \eqn{s} as the form  \eqn{t = t^*1_p}
 and \eqn{s = s^*1_p}.
 }
 \examples{
-bigt <- seq(-1, 1, .4)
-p <- 3
+\donttest{
+bigt <- seq(-1, 1, .5)
+p <- 2
 # Third derivatives
 lT3 <- l_dhCGF(p)[[1]]
 l3 <- rep(1/sqrt(lT3), lT3)
@@ -56,4 +57,5 @@ mt3_covLtLs(l = l3, p = p, bigt = bigt/sqrt(p), seed = 1)
 lT4 <- l_dhCGF(p)[[2]]
 l4 <- rep(1/sqrt(lT4), lT4)
 mt4_covLtLs(l = l4, p = p, bigt = bigt/sqrt(p), seed = 1)
+}
 }

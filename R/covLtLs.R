@@ -30,8 +30,9 @@
 #' \code{mt4_covLtLs} returns values related to the use of fourth derivatives.
 #' @export
 #' @examples
-#' bigt <- seq(-1, 1, .4)
-#' p <- 3
+#' \donttest{
+#' bigt <- seq(-1, 1, .5)
+#' p <- 2
 #' # Third derivatives
 #' lT3 <- l_dhCGF(p)[[1]]
 #' l3 <- rep(1/sqrt(lT3), lT3)
@@ -40,6 +41,7 @@
 #' lT4 <- l_dhCGF(p)[[2]]
 #' l4 <- rep(1/sqrt(lT4), lT4)
 #' mt4_covLtLs(l = l4, p = p, bigt = bigt/sqrt(p), seed = 1)
+#' }
 mt3_covLtLs <- function(l, p, bigt = seq(-1, 1, 0.05)/sqrt(p),
                         sTtTs = NULL, seed = 1){
   # bigt = seq(-1, 1, by = 0.05)/sqrt(p)
