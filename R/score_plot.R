@@ -91,15 +91,15 @@ score_plot1D <- function(x, P = NULL,
   df <- data.frame(x = x, a = a, f = f, upper = upper, lower = lower)
   ind <- which(df$a <= df$lower | df$a >= df$upper)
   # 20250113 - HT - update outliers based on symmetric distance
-  # df$dev <- df$a - df$f
-  # df$crit <- 2*sqrt(bi)
-  # df$Type <- abs(df$dev) > df$crit
-  # ind <- which(abs(df$dev) > df$crit)
+  df$dev <- df$a - df$f
+  df$crit <- 2*sqrt(bi)
+  df$Type <- abs(df$dev) > df$crit
+  ind <- which(abs(df$dev) > df$crit)
   out <- index[ind]
   #####
-  df$Type <- (df$a <= df$lower | df$a >= df$upper)
-  # df$Type <- as.factor(ifelse(df$a < lower | df$a > upper,
-  #                             "Outlier", "Non outlier"))
+  # df$Type <- (df$a <= df$lower | df$a >= df$upper)
+  df$Type <- as.factor(ifelse(df$a < lower | df$a > upper,
+                              "Outlier", "Non outlier"))
   df$Type <- factor(df$Type,
                     levels = c(T, F),
                     labels = c("Outlier", "Non-outlier"))
