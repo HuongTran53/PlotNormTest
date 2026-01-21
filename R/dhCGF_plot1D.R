@@ -73,7 +73,7 @@ dhCGF_plot1D <- function(x, alpha = 0.05, method){
     graphics::legend("top", c("T3","Probability bands"),
            lwd = c(2, 2),
            lty = c(1, 6), col = c("blue", "darkorange"),
-           merge = TRUE, y.intersp = 2,text.width = .6)
+           merge = TRUE, y.intersp = 1,text.width = .8)
     graphics::title(main = bquote(T[3] ~"plot"),
           adj = 0)
   } else {
@@ -86,7 +86,7 @@ dhCGF_plot1D <- function(x, alpha = 0.05, method){
     graphics::legend("top", c("T4","Probability bands"),
            lwd = c(2, 2),
            lty = c(1, 6), col = c("blue","orange"),
-           merge = TRUE, y.intersp = 2, text.width = .6)
+           merge = TRUE, y.intersp = 1, text.width = .8)
     graphics::title(main = bquote(T[4] ~"plot"),
           adj = 0)
   }
