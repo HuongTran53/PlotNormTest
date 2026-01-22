@@ -128,7 +128,7 @@ d3hCGF_plot <- function(x,
   graphics::lines(bigt, band2, col = "orange", lty = 6, lwd = 2)
   graphics::legend("top", c("Probability  bands", expression(L[3])),
                    lty = c(6, 1), col = c("orange", "blue"), lwd = c(2, 2),
-                   merge = TRUE, y.intersp = 1, text.width = .6)
+                   merge = TRUE, y.intersp = 1, text.width = .8)
   graphics::title(main = bquote(MT[3] ~"plot"), adj = 0)
   til.L <- L3/sqrt(lst$varLtLs)
   deci <- ifelse(max(abs(til.L)) >= u + lst$m.supLt, "reject", "accept")
